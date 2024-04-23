@@ -22,17 +22,29 @@ S1_seat=[ Seat("semi_sleeper",2500,"corner seat","SSC"),
        Seat("sleeper",2250,"window seat","SW"),
        Seat("seater",2000,"corner seat","SEC"),
        Seat("seater",2050,"window seat","SEW")]
+class Cart:
+    def __init__(self,bus_id,seat_id,price):
+        self.__bus_id=bus_id
+        self.__seat_id=seat_id
+        self.__price=price
+    def getBus_id(self):
+        return self.__bus_id
+    def getSeat_id(self):
+        return self.__seat_id
+    def getPrice(self):
+        return self.__price
+cart=[]
 class Bus:
     def __init__(self,id,name):
         self.id=id
         self.__name=name
-        self.__s=[]
+        self.__seat=[]
     def setter(self,stype,price,place,seat_id):
-        self.__s.append(Seat(stype,price,place,seat_id))
+        self.__seat.append(Seat(stype,price,place,seat_id))
     def getname(self):
         return self.__name
-    def gets(self):
-        return self.__s
+    def getseat(self):
+        return self.__seat
 bus=[Bus("K1","Komban"),Bus("S1","SRM")]
 l={"K1":K1_seat,"S1":S1_seat}
 for i in bus:
@@ -44,8 +56,11 @@ class Booked:
     def __init__(self,bus_id,seat_id):
         self.bus_id=bus_id
         self.seat_id=seat_id
-    def calculation(self,price):
-        return price-price*discount[0].discountrate()
+    def calculation(self,n):
+        if n==0:
+            return cart[0].getPrice()
+        else:
+            return cart[n].getPrice()-cart[n].getPrice()*discount[0].discountrate() + booked[0].calculation(n-1)
 booked=[]
 class Discount:
     def __init__(self,bus_id,seat_id,discount_rate):
@@ -75,33 +90,38 @@ while True:
         if userChoiceIsToViewTheSeats():
             print("******DISPLAYING THE SEATS********")
             for i in bus:
-                for j in i.gets():
+                for j in i.getseat():
                     print(f"BUS:{i.getname()} ||Bus_ID:{i.id} || SEAT_ID: {j.id} || SEAT_TYPE:{j.getstype()} || SEAT_PRICE: {j.getprice()} || SEAT_PLACE:{j.getplace()} ")
             print("-------------------------------------")
         elif userChoiceIsToBookTheSeats():
-            buss=input("Enter the bus_id:")
-            seat=input("Enter the Seat id :")
-            c=0
-            for i in booked:
-                if buss==i.bus_id and seat==i.seat_id:
-                    print("*******The Seat is already book**********")
-                    c=c+1
-            if c==0:
-                for i in range(len(bus)):
-                    if  buss==bus[i].id:
-                        c=0
-                        for j in bus[i].gets():
-                            c=c+1
-                            if seat==j.id:
-                                booked.append(Booked(bus[i].id,j.id))
-                                print("After Discount You have to PAY:",booked[0].calculation(j.getprice()))
-                                print("*******BOOKING CONFORMIED***********")
-                                break
-                            elif c==len(bus[i].gets())-1:
-                                print("**********Invalid Seat ID*********")
-                        break
-                    elif i==len(bus)-1:
-                        print("**********Invalid BUS ID*********")
+            for x in range(int(input("Enter How many Seats you want to book:"))):
+                buss=input("Enter the bus_id:")
+                seat=input("Enter the Seat id :")
+                c=0
+                for i in booked:
+                    if buss==i.bus_id and seat==i.seat_id:
+                        print("*******The Seat is already book**********")
+                        c=c+1
+                if c==0:
+                    for i in range(len(bus)):
+                        if  buss==bus[i].id:
+                            c=0
+                            for j in bus[i].getseat():
+                                c=c+1
+                                if seat==j.id:
+                                    booked.append(Booked(bus[i].id,j.id))
+                                    cart.append(Cart(bus[i].id,j.id,j.getprice()))
+                                    print("*******BOOKING CONFORMIED***********")
+                                    break
+                                elif c==len(bus[i].getseat()):
+                                    print("**********Invalid Seat ID*********")
+                            break
+                        elif i==len(bus)-1:
+                            print("**********Invalid BUS ID*********")
+            print("The Booked Seats are:")
+            for i in cart:
+                print(f"Bus_ID:{i.getBus_id()} || Seat_ID:{i.getSeat_id()}")
+            print(f"The total amount to pay:{booked[0].calculation(len(cart)-1)}")
         elif userChoiceIsToViewBookedSeats():
             print("**********BOOKRD SEATS************")
             if len(booked)==0:
@@ -109,7 +129,7 @@ while True:
             else:
                 for i in booked:
                     print(f"bus_id:{i.bus_id} || SEAT_ID:{i.seat_id}")
-                    print("*****************************")
+                print("*****************************")
         elif userChoiceIsToQuit():
             break
         else:

@@ -1,7 +1,9 @@
 Bus Ticket Booking System
 
 This program simulates a bus booking system with functionalities to view available seats, book seats, view booked seats, and calculate the total bill amount.
-Features
+
+
+Features:
 
     1.Seat Management:
        1. Stores details like seat type, price, and location (corner/window).

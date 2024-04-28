@@ -1,36 +1,41 @@
 Bus Ticket Booking System
 
-This Python program simulates a bus booking system with functionalities for viewing available seats, booking seats, viewing booked seats, and applying discounts.
+This program simulates a bus booking system with functionalities to view available seats, book seats, view booked seats, and calculate the total bill amount.
+Features
 
-Object-Oriented Design:
+    1.Seat Management:
+       1. Stores details like seat type, price, and location (corner/window).
+       2.Supports different bus types (identified by ID) with various seat configurations.
+    2.Booking System:
+        1.Allows booking seats for a chosen bus after verifying seat availability.
+        2.Handles invalid bus IDs and seat IDs.
+    3.Discount Management:
+        1.Defines discounts for specific seats (can be extended to include other criteria).
+        2.Calculates the final bill amount after applying applicable discounts.
+    4.User Interface:
+        1.Provides a menu-driven interface for users to interact with the system.
+        2.Validates user input (e.g., integer input for choices).
 
-The program utilizes several classes to represent entities in the system:
+Code Structure
 
-    1.Seat: Represents a bus seat with attributes like seat_type, price, place (corner or window), and id.
-    2.Bus: Represents a bus with attributes like id and name. It also has a list of Seat objects.
-    3.Booked: Represents a booked seat with attributes like bus_id and seat_id.
-    4.Discount (optional): Defines discount rates for specific bus IDs and seat IDs (currently implemented for specific scenarios).
+The program consists of several classes:
 
-Functionalities:
+    1.Seat: Represents a seat with attributes like type, price, location, and ID.
+    2.Cart: Stores information about seats added to the cart (bus ID, seat ID, price).
+    3.Bus: Represents a bus with attributes like ID, name, and a list of Seat objects.
+    4.Booked: Represents a booked seat with bus ID and seat ID.
+    5.Discount: Stores discount information for specific bus IDs, seat IDs, and discount rate.
 
-    1.Users can view available seats for all buses, displaying details like bus name, seat ID, seat type, price, and place.
-    2.The system allows booking seats by entering the bus ID and seat ID. It checks for seat availability and applies a discount if applicable based on pre-defined rules.
-    3.Users can view a list of their booked seats.
-    4.The program handles invalid user inputs (e.g., non-integer choices, invalid bus or seat IDs).
+Dependencies
+ 
+       1.This program does not require any external libraries beyond the built-in Python functionalities. 
+         Running the Program
+       2.Save the code as a Python file (e.g., bus_booking.py).
+       3.Run the program from the command line using:
+       
+The program presents a menu with the following options:
 
-Discount Rules:
-
-    1.Discounts are currently defined in the Discount class for specific combinations of bus ID and seat ID. You can modify these rules to implement different discount               strategies.
-
-Getting Started:
-
-    1.Ensure you have Python installed.
-    2.Save the code as a Python file (e.g., bus_booking.py).
-    3.Run the script from your terminal using python bus_booking.py.
-
-Further Enhancements:
-
-    1.Implement functionalities to cancel bookings.
-    2.Add user authentication to manage bookings.
-    3.Integrate with a database to store seat information and booking history persistently.
-    4.Allow users to search for specific routes or dates (if applicable to your use case).
+    1.View the Seats: Displays details of all available seats across buses.
+    2.Book the Seat(s): Allows booking seats for a chosen bus (validates bus ID and seat ID).
+    3.View the Booked Seats: Lists the currently booked seats.
+    4.Exit: Terminates the program.

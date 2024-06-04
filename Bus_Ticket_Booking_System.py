@@ -57,11 +57,12 @@ class Booked:
         self.bus_id=bus_id
         self.seat_id=seat_id
     @classmethod
-    def calculation(self,n):
-        if n==0:
-            return cart[0].getPrice()
-        else:
-            return cart[n].getPrice()-cart[n].getPrice()*Discount.discountrate() + Booked.calculation(n-1)
+    def calculation(self):
+        total=0
+        for i in cart:
+            total=total+i.getPrice()-(i.getPrice()*Discount.discountrate(i.getBus_id(),i.getSeat_id()))
+        return total
+            
 booked=[]
 class Discount:
     def __init__(self,bus_id,seat_id,discount_rate):
@@ -69,13 +70,15 @@ class Discount:
         self.__seat_id=seat_id
         self.__discount_rate=discount_rate
     @classmethod
-    def discountrate(self):
+    def discountrate(self,bus_id,seat_id):
         for i in discount:
-            if i.__bus_id == buss and i.__seat_id == seat:
+            if i.__bus_id == bus_id and i.__seat_id == seat_id:
                 return i.__discount_rate
-        else:
-            return 0
+        
+        return 0
+
 discount=[Discount("K1","SSW",0.05),Discount("S1","SW",0.10),Discount("S1","SEC",0.15)]
+
 def userChoiceIsToViewTheSeats():
     return ch==1
 def userChoiceIsToBookTheSeats():
@@ -125,10 +128,12 @@ while True:
                 print("The Booked Seats are:")
                 for i in cart:
                     print(f"Bus_ID:{i.getBus_id()} || Seat_ID:{i.getSeat_id()}")
-                print(f"The total amount to pay:{Booked.calculation(len(cart)-1)}")
+                print(f"The total amount to pay:{Booked.calculation()}")
                 print("**********BOOKING CONFORMED**************")
+                cart=[]
             else:
                 print("**********BOOKING CANCELLED**************")
+                cart=[]
         elif userChoiceIsToViewBookedSeats():
             print("**********BOOKRD SEATS************")
             if len(booked)==0:

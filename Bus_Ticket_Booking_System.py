@@ -22,18 +22,7 @@ S1_seat=[ Seat("semi_sleeper",2500,"corner seat","SSC"),
        Seat("sleeper",2250,"window seat","SW"),
        Seat("seater",2000,"corner seat","SEC"),
        Seat("seater",2050,"window seat","SEW")]
-class Cart:
-    def __init__(self,bus_id,seat_id,price):
-        self.__bus_id=bus_id
-        self.__seat_id=seat_id
-        self.__price=price
-    def getBus_id(self):
-        return self.__bus_id
-    def getSeat_id(self):
-        return self.__seat_id
-    def getPrice(self):
-        return self.__price
-cart=[]
+
 class Bus:
     def __init__(self,id,name):
         self.id=id
@@ -52,6 +41,20 @@ for i in bus:
         if i.id == j:
             for k in l[j]:
                 i.setter(k.getstype(),k.getprice(),k.getplace(),k.id)
+
+class Cart:
+    def __init__(self,bus_id,seat_id,price):
+        self.__bus_id=bus_id
+        self.__seat_id=seat_id
+        self.__price=price
+    def getBus_id(self):
+        return self.__bus_id
+    def getSeat_id(self):
+        return self.__seat_id
+    def getPrice(self):
+        return self.__price
+cart=[]
+
 class Booked:
     def __init__(self,bus_id,seat_id):
         self.bus_id=bus_id
